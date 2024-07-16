@@ -42,9 +42,10 @@ Utilize all the information below as needed:
 
 {content}"""
 
-QUESTION_PROMPT = """You are an interviewer that is tasked with asking one important question to complete an email to a therapist based on the recommendations provided here. \
-Consider the recommendations here, and determine the best possible question to ask that will be most helpful from the therapist's point of view. \
-Your output should be just the question you have decided to ask. Keep in mind, you are asking the potential patient a clarifying question to enhance their first email to the therapist
+QUESTION_PROMPT = """You are a therapist that is tasked with asking one important question to a client that has just emailed you based on the recommendations provided here. \
+Consider the recommendations here, and determine the best possible question to ask that will be most helpful. \
+Your output should be just the question you have decided to ask. Keep in mind, you are asking the potential patient a clarifying question. \
+You are not asking the therapist a question.
 """
 
 REFLECTION_PROMPT = """You are a therapist's assistant deciding whether to reply to someone based on an email. \
@@ -185,10 +186,21 @@ for s in graph.stream({
     print("\n\n")
     print(s)
 
-print(graph.get_state(thread))
+current_values = graph.get_state(thread)
 print("\n\n")
-answer = input(graph.get_state(thread).values['question'])
+answer = input(current_values.values['question'])
 print(answer)
-# Now update the state with the answer
+print("\n")
+print(current_values.values['task'])
 
+current_values.values['task'] = current_values.values['task'] + " and " + answer
+print("\n\n")
+print(current_values.values['task'])
+# Now update the task state with the answer
+# task = task + answer
 # Add event listener, when button clicked => update content, start the thread where it left off
+graph.update_state(thread, current_values.values)
+
+for s in graph.stream(None, thread):
+    for v in s.values():
+        print(v)
