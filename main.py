@@ -186,3 +186,9 @@ for s in graph.stream({
     print(s)
 
 print(graph.get_state(thread))
+print("\n\n")
+answer = input(graph.get_state(thread).values['question'])
+print(answer)
+# Now update the state with the answer
+
+# Add event listener, when button clicked => update content, start the thread where it left off
