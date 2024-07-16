@@ -16,6 +16,7 @@ class AgentState(TypedDict):
     plan: str
     draft: str
     critique: str
+    question: str
     # Content is a list of strings for storing documents from Tavily
     content: List[str]
     revision_number: int
@@ -40,6 +41,11 @@ Utilize all the information below as needed:
 ------
 
 {content}"""
+
+QUESTION_PROMPT = """You are an interviewer that is tasked with asking one important question to complete an email to a therapist based on the recommendations provided here. \
+Consider the recommendations here, and determine the best possible question to ask that will be most helpful from the therapist's point of view. \
+Your output should be just the question you have decided to ask. Keep in mind, you are asking the potential patient a clarifying question to enhance their first email to the therapist
+"""
 
 REFLECTION_PROMPT = """You are a therapist's assistant deciding whether to reply to someone based on an email. \
 Generate critique and recommendations for the user's submission. \
@@ -123,6 +129,17 @@ def research_critique_node(state: AgentState):
     return {"content": content}
 
 
+def question_node(state: AgentState):
+    messages = [
+        SystemMessage(content=QUESTION_PROMPT),
+        HumanMessage(content=state['critique'])
+    ]
+    response = model.invoke(messages)
+    return {"question": response.content}
+
+
+
+
 def should_continue(state):
     if state["revision_number"] > state["max_revisions"]:
         return END
@@ -135,6 +152,7 @@ builder.add_node("generate", generation_node)
 builder.add_node("reflect", reflection_node)
 builder.add_node("research_plan", research_plan_node)
 builder.add_node("research_critique", research_critique_node)
+builder.add_node("question_node", question_node)
 
 builder.set_entry_point("planner")
 
@@ -148,15 +166,23 @@ builder.add_edge("planner", "research_plan")
 builder.add_edge("research_plan", "generate")
 
 builder.add_edge("reflect", "research_critique")
-builder.add_edge("research_critique", "generate")
+builder.add_edge("research_critique", "question_node")
+builder.add_edge("question_node", "generate")
 
-graph = builder.compile(checkpointer=memory)
+
+
+graph = builder.compile(
+    checkpointer=memory,
+    interrupt_after=["question_node"]
+    )
 
 thread = {"configurable": {"thread_id": "1"}}
 for s in graph.stream({
-    'task': "I have social anxiety, ocd, and depression",
+    'task': "I am reaching out for an initial therapy consultation",
     "max_revisions": 2,
     "revision_number": 1,
 }, thread):
     print("\n\n")
     print(s)
+
+print(graph.get_state(thread))
