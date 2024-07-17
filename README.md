@@ -59,3 +59,56 @@ Suggesting Enhancements
     git checkout -b feature/your-feature-name
 3. Commit Your Changes
 4. Push to Github
+
+
+# architecture and API Usage
+This project uses both the Tavily API and the OpenAI API.
+The Tavily API is used as an Agentic search tool in tandem with Langgraph to develop a team of agents working towards the goal of drafting an email.
+
+
+
+# examples of generated outcome
+1. Prompt: 
+I have anxiety, OCD, and it is very hard for me to leave my bed
+
+Draft: 
+Subject: Request for Initial Consultation
+
+Dear [Therapist's Name],
+
+I hope this message finds you well. My name is [Your Name], and I am reaching out to you regarding my struggles with anxiety, OCD, and the difficulty I face in leaving my bed.
+
+Living with anxiety and OCD has been challenging, and it has significantly impacted my daily life, making it hard for me to even get out of bed some days.
+
+I am interested in scheduling an initial consultation with you to discuss my concerns further and explore potential therapy options that could help me cope better with these challenges.
+
+I am available [mention your availability here], and I would appreciate it if we could find a suitable time for the consultation that works for both of us.
+
+You can reach me at [Your Phone Number] or [Your Email] to coordinate the appointment.
+
+Thank you for considering my request. I am hopeful that this consultation will lead to a positive outcome and help me on my journey towards better mental health.
+
+Warm regards,
+
+[Your Name]
+
+2. Prompt: 
+
+Draft:
+Subject: Request for Initial Consultation to Address Difficulty Opening Up
+
+Dear [Therapist's Name],
+
+I hope this message finds you well. My name is [Your Name], and I am reaching out to inquire about therapy services. I am struggling with opening up to people, and I believe therapy could help me navigate this challenge effectively.
+
+In brief, I have found it difficult to share my thoughts and emotions with others, which has hindered my ability to form meaningful connections. Specific instances, such as [briefly mention any relevant experiences], have highlighted this struggle for me.
+
+My primary goals for therapy include enhancing my communication skills, fostering trust in relationships, and establishing deeper connections with those around me.
+
+I kindly request an initial consultation to further discuss my concerns and explore potential therapy approaches. I am available [mention your availability] and prefer to communicate via [phone call/email/other preferred method].
+
+Thank you in advance for considering my request. I appreciate your time and expertise. Please feel free to contact me at [your phone number] or [your email] to schedule a consultation at your earliest convenience.
+
+Warm regards,
+
+[Your Name]
