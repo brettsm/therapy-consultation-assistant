@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 
 _ = load_dotenv()
-
+import tkinter as tk
+from tkinter import scrolledtext
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, Annotated, List
 import operator
@@ -54,7 +55,7 @@ Provide detailed recommendations, including requests for length, depth, style, e
 
 RESEARCH_CRITIQUE_PROMPT = """You are a researcher charged with providing information that can \
 be used when making any requested revisions (as outlined below). \
-Generate a list of search queries that will gather information that will be useful to improve this letter's chance of being accepted for disability. Only generate 3 queries max."""
+Generate a list of search queries that will gather information that will be useful to improve this chance of being useful for the therapist reading it. Only generate 3 queries max."""
 
 
 from langchain_core.pydantic_v1 import BaseModel
@@ -66,7 +67,6 @@ class Queries(BaseModel):
 from tavily import TavilyClient
 import os
 tavily = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
-
 
 def plan_node(state: AgentState):
     messages = [
@@ -144,7 +144,7 @@ def question_node(state: AgentState):
 def should_continue(state):
     if state["revision_number"] > state["max_revisions"]:
         return END
-    return "reflect"
+    return "reflect" 
 
 
 builder = StateGraph(AgentState)
@@ -177,30 +177,39 @@ graph = builder.compile(
     interrupt_after=["question_node"]
     )
 
-thread = {"configurable": {"thread_id": "1"}}
-for s in graph.stream({
-    'task': "I am reaching out for an initial therapy consultation",
-    "max_revisions": 2,
-    "revision_number": 1,
-}, thread):
-    print("\n\n")
-    print(s)
+# thread = {"configurable": {"thread_id": "1"}}
+# for s in graph.stream({
+#     'task': "I am reaching out for an initial therapy consultation",
+#     "max_revisions": 2,
+#     "revision_number": 1,
+# }, thread):
+#     print("\n\n")
+#     print(s)
 
-current_values = graph.get_state(thread)
-print("\n\n")
-answer = input(current_values.values['question'])
-print(answer)
-print("\n")
-print(current_values.values['task'])
+# current_values = graph.get_state(thread)
+# print("\n\n")
+# answer = input(current_values.values['question'])
+# print(answer)
+# print("\n")
+# print(current_values.values['task'])
 
-current_values.values['task'] = current_values.values['task'] + " and " + answer
-print("\n\n")
-print(current_values.values['task'])
-# Now update the task state with the answer
-# task = task + answer
-# Add event listener, when button clicked => update content, start the thread where it left off
-graph.update_state(thread, current_values.values)
+# current_values.values['task'] = current_values.values['task'] + " and " + answer
+# print("\n\n")
+# print(current_values.values['task'])
+# # Now update the task state with the answer
+# # task = task + answer
+# # Add event listener, when button clicked => update content, start the thread where it left off
+# graph.update_state(thread, current_values.values)
 
-for s in graph.stream(None, thread):
-    for v in s.values():
-        print(v)
+# for s in graph.stream(None, thread):
+#     for v in s.values():
+#         print(v)
+
+import warnings
+warnings.filterwarnings("ignore")
+
+from helper import ewriter, writer_gui
+
+MultiAgent = ewriter()
+app = writer_gui(MultiAgent.graph)
+app.launch()
