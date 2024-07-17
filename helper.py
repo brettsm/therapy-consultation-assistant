@@ -440,7 +440,6 @@ class writer_gui( ):
                 with gr.Row():
                     refresh_btn = gr.Button("Refresh")
                     modify_btn = gr.Button("Modify")
-                response_bx = gr.Textbook(label="Resposne", lines=10)
                 question_bx = gr.Textbox(label="Question", lines=10, interactive=True)
                 refresh_btn.click(fn=self.get_state, inputs=gr.Number("question", visible=False), outputs=question_bx)
                 modify_btn.click(fn=self.modify_state, inputs=[gr.Number("question", visible=False),
