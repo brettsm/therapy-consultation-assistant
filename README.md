@@ -33,7 +33,7 @@ To use the application there is a small amount of setup that needs to happen
 
 7. Click "Generate Email" to generate the email based on the prompt you provided
 
-8. The draft tab is where you will find the result of the model running
+8. The draft tab is where you will find the result of the model running (click refresh if nothing is showing)
     8.a. The question tab will provide useful questions that could lead to better emails produced by the agents
 
 # how-to-contribute
