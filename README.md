@@ -51,3 +51,11 @@ Suggesting Enhancements
 2. Open a new issue: If it hasn't been suggested, open a new issue.
 
 3. Describe your enhancement: Provide a detailed description of the enhancement and why it would be useful.
+
+# contributing-code
+
+1. Fork the Repository
+2. Create a Branch
+    git checkout -b feature/your-feature-name
+3. Commit Your Changes
+4. Push to Github
