@@ -36,4 +36,18 @@ To use the application there is a small amount of setup that needs to happen
 8. The draft tab is where you will find the result of the model running
     8.a. The question tab will provide useful questions that could lead to better emails produced by the agents
 
-# 
+# how-to-contribute
+Reporting Bugs
+
+1. Check if the issue already exists: Look through the issues to see if the bug has already been reported.
+
+2. Open a new issue: If it hasn't been reported, open a new issue.
+3. Describe the bug: Provide as much detail as possible about the bug and how to reproduce it.
+
+Suggesting Enhancements
+
+1. Check existing suggestions: Look through the issues to see if your enhancement has already been suggested.
+
+2. Open a new issue: If it hasn't been suggested, open a new issue.
+
+3. Describe your enhancement: Provide a detailed description of the enhancement and why it would be useful.
